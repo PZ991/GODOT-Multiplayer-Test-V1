@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvjfuymrb2b8o"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_etxdm"]
+[ext_resource type="Texture2D" uid="uid://b8e1h5usjfwwv" path="res://icon.svg" id="1_fb0e5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fruwn"]
+size = Vector2(130, 129)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_aay81"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_etxdm")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fb0e5")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.831373, 0, 0.168627, 1)
+texture = ExtResource("1_fb0e5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_fruwn")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_aay81")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
